@@ -1,4 +1,4 @@
-﻿# pragma once
+﻿#pragma once
 #include <Siv3D.hpp>
 
 // 扱うシーンの名前を列挙
