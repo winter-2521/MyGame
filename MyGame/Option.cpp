@@ -13,10 +13,11 @@ void Option::update()
 	{
 		Cursor::RequestStyle(CursorStyle::Hand);
 	}
+
 	if (m_exitButton.leftClicked())
 	{
-		// 終了
-		System::Exit();
+		// タイトルに戻る
+		changeScene(State::Title);
 	}
 }
 
@@ -24,7 +25,7 @@ void Option::draw() const
 {
 	Scene::SetBackground(ColorF{ 0.2, 0.8, 0.4 });
 
-	FontAsset(U"TitleFont")(U"BREAKOUT")
+	FontAsset(U"Option")(U"OPTION")
 		.drawAt(TextStyle::OutlineShadow(0.2, ColorF{ 0.2, 0.6, 0.2 }, Vec2{ 3, 3 }, ColorF{ 0.0, 0.5 }), 100, Vec2{ 400, 100 });
 
 	m_startButton.draw(ColorF{ 1.0, m_startTransition.value() }).drawFrame(2);
@@ -33,5 +34,5 @@ void Option::draw() const
 
 	FontAsset(U"Menu")(U"あそぶ").drawAt(m_startButton.center(), ColorF{ 0.25 });
 	FontAsset(U"Menu")(U"オプション").drawAt(m_optionButton.center(), ColorF{ 0.25 });
-	FontAsset(U"Menu")(U"やめる").drawAt(m_exitButton.center(), ColorF{ 0.25 });
+	FontAsset(U"Menu")(U"戻る").drawAt(m_exitButton.center(), ColorF{ 0.25 });
 }
