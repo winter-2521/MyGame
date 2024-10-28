@@ -1,9 +1,9 @@
-﻿#include "Title.hpp"
+﻿#include "Option.hpp"
 
-Title::Title(const InitData& init)
+Option::Option(const InitData& init)
 	: IScene{ init } {}
 
-void Title::update()
+void Option::update()
 {
 	m_startTransition.update(m_startButton.mouseOver());
 	m_rankingTransition.update(m_optionButton.mouseOver());
@@ -13,11 +13,6 @@ void Title::update()
 	{
 		Cursor::RequestStyle(CursorStyle::Hand);
 	}
-	if (m_optionButton.leftClicked())
-	{
-		// オプションに移動
-		changeScene(State::Option);
-	}
 	if (m_exitButton.leftClicked())
 	{
 		// 終了
@@ -25,11 +20,11 @@ void Title::update()
 	}
 }
 
-void Title::draw() const
+void Option::draw() const
 {
 	Scene::SetBackground(ColorF{ 0.2, 0.8, 0.4 });
 
-	FontAsset(U"TitleFont")(U"Twins")
+	FontAsset(U"TitleFont")(U"BREAKOUT")
 		.drawAt(TextStyle::OutlineShadow(0.2, ColorF{ 0.2, 0.6, 0.2 }, Vec2{ 3, 3 }, ColorF{ 0.0, 0.5 }), 100, Vec2{ 400, 100 });
 
 	m_startButton.draw(ColorF{ 1.0, m_startTransition.value() }).drawFrame(2);

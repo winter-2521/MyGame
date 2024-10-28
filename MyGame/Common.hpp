@@ -6,6 +6,7 @@ enum class State
 {
 	Title,
 	Game,
+	Option,
 };
 
 // シーン間で共有するデータの構造体

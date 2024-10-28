@@ -1,5 +1,6 @@
 ﻿#include "Common.hpp"
 #include "Title.hpp"
+#include "Option.hpp"
 
 void Main()
 {
@@ -18,6 +19,7 @@ void Main()
 
 	App manager;
 	manager.add<Title>(State::Title);
+	manager.add<Option>(State::Option);
 
 	while (System::Update()){
 		if (not manager.update()){

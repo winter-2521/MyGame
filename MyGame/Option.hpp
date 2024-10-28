@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "Common.hpp"
 
-class Title : public App::Scene
+class Option : public App::Scene
 {
 public:
 
-	Title(const InitData& init);
+	Option(const InitData& init);
 
 	void update() override;
 
