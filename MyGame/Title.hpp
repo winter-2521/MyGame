@@ -13,7 +13,7 @@ public:
 
 private:
 
-	Rect m_startButton{ Arg::center = Scene::Center(), 300, 60 };
+	Rect m_stageButton{ Arg::center = Scene::Center(), 300, 60 };
 	Transition m_startTransition{ 0.4s, 0.2s };
 
 	Rect m_optionButton{ Arg::center = Scene::Center().movedBy(0, 100), 300, 60 };

@@ -7,6 +7,7 @@ enum class State
 	Title,
 	Game,
 	Option,
+	Stage,
 };
 
 // シーン間で共有するデータの構造体

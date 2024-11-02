@@ -28,11 +28,12 @@ void Option::draw() const
 	FontAsset(U"Option")(U"OPTION")
 		.drawAt(TextStyle::OutlineShadow(0.2, ColorF{ 0.2, 0.6, 0.2 }, Vec2{ 3, 3 }, ColorF{ 0.0, 0.5 }), 100, Vec2{ 400, 100 });
 
-	m_startButton.draw(ColorF{ 1.0, m_startTransition.value() }).drawFrame(2);
-	m_optionButton.draw(ColorF{ 1.0, m_rankingTransition.value() }).drawFrame(2);
+	//m_startButton.draw(ColorF{ 1.0, m_startTransition.value() }).drawFrame(2);
+	//m_optionButton.draw(ColorF{ 1.0, m_rankingTransition.value() }).drawFrame(2);
 	m_exitButton.draw(ColorF{ 1.0, m_exitTransition.value() }).drawFrame(2);
 
-	FontAsset(U"Menu")(U"あそぶ").drawAt(m_startButton.center(), ColorF{ 0.25 });
-	FontAsset(U"Menu")(U"オプション").drawAt(m_optionButton.center(), ColorF{ 0.25 });
+	FontAsset(U"Menu")(U"工事中!").drawAt( Scene::Center(), ColorF{ 0.25 });
+	//FontAsset(U"Menu")(U"あそぶ").drawAt(m_startButton.center(), ColorF{ 0.25 });
+	//FontAsset(U"Menu")(U"オプション").drawAt(m_optionButton.center(), ColorF{ 0.25 });
 	FontAsset(U"Menu")(U"戻る").drawAt(m_exitButton.center(), ColorF{ 0.25 });
 }

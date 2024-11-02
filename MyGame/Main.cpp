@@ -1,6 +1,7 @@
 ﻿#include "Common.hpp"
 #include "Title.hpp"
 #include "Option.hpp"
+#include "Stage.hpp"
 
 void Main()
 {
@@ -20,6 +21,7 @@ void Main()
 	App manager;
 	manager.add<Title>(State::Title);
 	manager.add<Option>(State::Option);
+	manager.add<Stage>(State::Stage);
 
 	while (System::Update()){
 		if (not manager.update()){
