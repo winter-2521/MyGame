@@ -15,6 +15,28 @@ void Stage::update()
 		Cursor::RequestStyle(CursorStyle::Hand);
 	}
 
+
+	//ステージ番号をメモしてレベル選択画面へ
+	if (m_stage1_Button.leftClicked())
+	{
+		getData().stage_number = 0;
+		changeScene(State::Level);
+	}
+
+	if (m_stage2_Button.leftClicked())
+	{
+		getData().stage_number = 1;
+		changeScene(State::Level);
+	}
+
+	if (m_stage3_Button.leftClicked())
+	{
+		getData().stage_number = 2;
+		changeScene(State::Level);
+	}
+
+
+
 	if (m_back_Button.leftClicked())
 	{
 		// タイトルに戻る

@@ -115,6 +115,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Option.cpp" />
     <ClCompile Include="Stage.cpp" />
@@ -329,8 +331,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.hpp" />
+    <ClInclude Include="Game.hpp" />
+    <ClInclude Include="Level.hpp" />
     <ClInclude Include="Option.hpp" />
     <ClInclude Include="Stage.hpp" />
+    <ClInclude Include="StageData.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Title.hpp" />
   </ItemGroup>
