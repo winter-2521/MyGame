@@ -17,16 +17,15 @@ void Main()
 	FontAsset(U"TitleFont").setBufferThickness(4);
 	FontAsset::Register(U"Menu", FontMethod::MSDF, 40, Typeface::Medium);
 	FontAsset::Register(U"Option", 40, Typeface::Heavy);
-	FontAsset::Register(U"GameScore", 30, Typeface::Light);
+	FontAsset::Register(U"Clear", 30, Typeface::Light);
 
-	AudioAsset::Register(U"Brick", GMInstrument::Woodblock, PianoKey::C5, 0.2s, 0.1s);
-
+	// シーンマネージャーの初期化
 	App manager;
 	manager.add<Title>(State::Title);
 	manager.add<Option>(State::Option);
 	manager.add<Stage>(State::Stage);
 	manager.add<Level>(State::Level);
-	//manager.add<Game>(State::Game);
+	manager.add<Game>(State::Game);
 
 	while (System::Update()){
 		if (not manager.update()){

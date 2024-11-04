@@ -6,6 +6,9 @@ Level::Level(const InitData& init)
 void Level::update()
 {
 	m_stage1_Transition.update(m_stage1_Button.mouseOver());
+	m_stage2_Transition.update(m_stage2_Button.mouseOver());
+	m_stage3_Transition.update(m_stage3_Button.mouseOver());
+	m_back_Transition.update(m_back_Button.mouseOver());
 
 	if (m_stage1_Button.mouseOver() || m_stage2_Button.mouseOver() || m_stage3_Button.mouseOver()
 		|| m_back_Button.mouseOver())
@@ -13,8 +16,23 @@ void Level::update()
 		Cursor::RequestStyle(CursorStyle::Hand);
 	}
 
+	// 各ステージに遷移
 	if (m_stage1_Button.leftClicked())
 	{
+		getData().level_number = 0;
+		changeScene(State::Game);
+	}
+
+	if (m_stage2_Button.leftClicked())
+	{
+		getData().level_number = 1;
+		changeScene(State::Game);
+	}
+
+	if (m_stage3_Button.leftClicked())
+	{
+		getData().level_number = 2;
+		changeScene(State::Game);
 	}
 
 	if (m_back_Button.leftClicked())

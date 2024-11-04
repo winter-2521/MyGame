@@ -11,25 +11,6 @@ enum class State
 	Level,
 };
 
-// ステージの情報を表すデータの構造体
-struct StageData
-{
-	//ステージの縦横サイズ
-	int32 stage_height;
-	int32 stage_width;
-
-	//クリアに必要な最短手数
-	int32 minimum_clear_turn;
-
-	//マスに何がおかれているか？の情報
-	String grid_info[50];
-
-	StageData(int32 h, int w, int turn, std::initializer_list<String> grid = {}) : stage_height(h), stage_width(w), minimum_clear_turn(turn)
-	{
-		std::copy(grid.begin(), grid.end(), grid_info);
-	}
-};
-
 // シーン間で共有するデータの構造体
 struct GameData
 {
