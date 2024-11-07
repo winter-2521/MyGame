@@ -17,7 +17,7 @@ void Main()
 	FontAsset(U"TitleFont").setBufferThickness(4);
 	FontAsset::Register(U"Menu", FontMethod::MSDF, 40, Typeface::Medium);
 	FontAsset::Register(U"Option", 40, Typeface::Heavy);
-	FontAsset::Register(U"Clear", 30, Typeface::Light);
+	FontAsset::Register(U"Clear", 40, Typeface::Medium);
 
 	// シーンマネージャーの初期化
 	App manager;

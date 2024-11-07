@@ -28,7 +28,6 @@ Game::Game(const InitData& init)
 
 void Game::update()
 {
-
 	// ゲームの盤面(グリッド)を描画
 	for (auto w : step(stage_data.stage_width))
 	{
@@ -60,6 +59,7 @@ void Game::update()
 		{
 			// それ以外なら目的地に合わせる
 			board.player_pos[i] = target_pos;
+			is_moving = false;
 		}
 
 		// プレイヤーの位置に絵文字を描画
@@ -80,21 +80,25 @@ void Game::update()
 		if (KeyD.down())
 		{
 			board.operate_player(0);
+			is_moving = true;
 		}
 
 		if (KeyS.down())
 		{
 			board.operate_player(1);
+			is_moving = true;
 		}
 
 		if (KeyA.down())
 		{
 			board.operate_player(2);
+			is_moving = true;
 		}
 
 		if (KeyW.down())
 		{
 			board.operate_player(3);
+			is_moving = true;
 		}
 
 		if (m_back_Button.leftClicked())
@@ -103,7 +107,7 @@ void Game::update()
 			changeScene(State::Level);
 		}
 	}
-	else {
+	else if(!is_moving){
 		// ウィンドウの背景（クリア画面として半透明に）
 		Rect clear_window = Rect(Scene::Center().movedBy(-200, -100), 400, 200);
 		clear_window.draw(ColorF(0.0, 0.5));
@@ -111,12 +115,13 @@ void Game::update()
 		// メッセージの表示
 		FontAsset(U"Clear")(U"クリア！").drawAt(clear_window.center(), Palette::Yellow);
 
-		if (KeyEnter.down())
+		if (KeyEnter.down() || m_back_Button.leftClicked())
 		{
 			changeScene(State::Level);
 		}
 	}
 
+	// もしゲームクリア済みならフラグを立てる (クリア画面表示用)
 	if (board.is_clear()) game_clear = true;
 }
 

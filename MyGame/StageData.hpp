@@ -25,16 +25,13 @@ struct StageData
 	//クリアに必要な最短手数
 	int32 minimum_clear_turn;
 
-	//Player の人数
-	int32 player_num;
-
 	//マスに何がおかれているか？の情報
 	Array<String> grid_info;
 
 	StageData() : stage_height(0), stage_width(0) {}
 
-	StageData(int32 h, int32 w, int32 turn, int32 num, std::initializer_list<String> grid = {})
-		: stage_height(h), stage_width(w), minimum_clear_turn(turn), player_num(num), grid_info(grid) {}
+	StageData(int32 h, int32 w, int32 turn, std::initializer_list<String> grid = {})
+		: stage_height(h), stage_width(w), minimum_clear_turn(turn), grid_info(grid) {}
 };
 
 // 実際に動かす Player の構造体
@@ -117,7 +114,7 @@ struct Board {
 	}
 
 	// マス (h,w) が壁か判定する関数
-	bool is_wall(int32 w, int32 h) {
+	bool is_wall(int32 w, int32 h) const {
 		return String(1, stage_info.grid_info[h][w]) == WALL;
 	}
 
@@ -196,7 +193,6 @@ const Array<Array<StageData> > StageInfo = {
 			6,
 			5,
 			7,
-			2,
 			{
 			U".S...",
 			U"....G",
@@ -205,5 +201,19 @@ const Array<Array<StageData> > StageInfo = {
 			U".....",
 			U"....."
 			})
+		,
+
+		StageData( // 1-1
+		6,
+		5,
+		7,
+		{
+		U".S...",
+		U"....G",
+		U"....#",
+		U"S...G",
+		U".....",
+		U"....."
+		})
 	}
 };

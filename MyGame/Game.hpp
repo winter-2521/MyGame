@@ -17,6 +17,9 @@ private:
 	// ゲームをクリアしたか判定
 	bool game_clear = false;
 
+	// 移動アニメーション描画中か判定
+	bool is_moving = false;
+
 	// ゲーム盤面の幅と高さ
 	const int32 game_field_width = 600;
 	const int32 game_field_height = 400;
