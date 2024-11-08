@@ -20,6 +20,9 @@ private:
 	// 移動アニメーション描画中か判定
 	bool is_moving = false;
 
+	// 移動アニメーション(回転)中か判定
+	bool is_rotating = false;
+
 	// ゲーム盤面の幅と高さ
 	const int32 game_field_width = 600;
 	const int32 game_field_height = 400;
@@ -35,9 +38,14 @@ private:
 	const Texture player_texture{U"👤"_emoji};
 	const Texture goal_texture{ U"🚩"_emoji };
 	const Texture bomb_texture{ U"💣"_emoji };
+	const Texture l_rot_texture{ U"↪"_emoji };
+	const Texture r_rot_texture{ U"↩"_emoji };
 
 	// アニメーション速度 (1フレームごとに移動するピクセル数)
 	const double speed = 15.0;
+
+	// アニメーション速度 (1フレームごとに回転する角度)
+	const double rotate_speed = 36_deg;
 
 	/*
 	*　中心をScene::Center.movedBy(0,-30)にセットしながらゲームの盤面を表すグリッドを書きたい

@@ -7,8 +7,8 @@
 const String PLAYER	= Unicode::Widen("S");
 const String GOAL	= Unicode::Widen("G");
 const String WALL	= Unicode::Widen("#");
-const String L_CIR  = Unicode::Widen("L");
-const String R_CIR  = Unicode::Widen("R");
+const String L_ROT  = Unicode::Widen("L");
+const String R_ROT  = Unicode::Widen("R");
 
 // グリッドの移動方向の差分を表す列
 // L , D , R , U の順 (プレイヤーの回転操作を実装するとき用の仕様)
@@ -39,6 +39,9 @@ struct Player {
 	// Playerの座標
 	Point pos;
 
+	// Playerの回転角
+	double angle;
+
 	// Playerの向き (回転マス等を実装するときに必要)
 	int32 dir;
 };
@@ -59,6 +62,9 @@ struct Board {
 	// アニメーション用に，プレイヤーの現在位置を示す double 型の配列も定義
 	Array<Vec2> player_pos;
 
+	// 回転アニメーション用に，プレイヤーの残り回転角度を示す double 型の配列
+	Array<double> player_angle;
+
 	// 現在のターン数
 	int32 now_turn;
 
@@ -71,8 +77,9 @@ struct Board {
 			for (auto h : step(data.stage_height))
 			{
 				if (String(1, data.grid_info[h][w]) == PLAYER) {
-					players.push_back(Player(Point(w, h), 0));
+					players.push_back(Player(Point(w, h), 0.0, 0));
 					player_pos.push_back(Vec2(w, h));
+					player_angle.push_back(0.0);
 				}
 				else if (String(1, data.grid_info[h][w]) == GOAL) {
 					goals.push_back(Point(w, h));
@@ -93,13 +100,16 @@ struct Board {
 	{
 		players.clear();
 		goals.clear();
+		player_pos.clear();
+		player_angle.clear();
 		now_turn = 0;
 		for (auto w : step(stage_info.stage_width))
 		{
 			for (auto h : step(stage_info.stage_height))
 			{
 				if (String(1, stage_info.grid_info[h][w]) == PLAYER) {
-					players.push_back(Player(Point(w, h), 0));
+					players.push_back(Player(Point(w, h), 0.0, 0));
+					player_angle.push_back(0.0);
 				}
 				else if (String(1, stage_info.grid_info[h][w]) == GOAL) {
 					goals.push_back(Point(w, h));
@@ -107,7 +117,7 @@ struct Board {
 			}
 		}
 
-		for (Player p : players)
+		for (const Player &p : players)
 		{
 			player_pos.push_back(Vec2(p.pos));
 		}
@@ -119,13 +129,13 @@ struct Board {
 	}
 
 	// マス (h,w) にプレイヤーが移動できるか判定する関数
-	bool is_go(int32 h, int32 w) {
+	bool is_go(int32 h, int32 w) const {
 		if (h < 0 || w < 0 || h >= stage_info.stage_height || w >= stage_info.stage_width) return false;
 		if (is_wall(w, h)) return false;
 		return true;
 	}
 
-	bool is_go(Point p) {
+	bool is_go(Point p) const {
 		int32 h = p.y;
 		int32 w = p.x;
 		return is_go(h, w);
@@ -183,6 +193,10 @@ struct Board {
 		for (auto i : del) calc[i].pos = players[i].pos;
 
 		players = calc;
+
+		// 回転マスに乗ったときは残り回転角の値を更新
+		for (auto i : step(players.size())) {
+		}
 	}
 
 };
@@ -203,16 +217,16 @@ const Array<Array<StageData> > StageInfo = {
 			})
 		,
 
-		StageData( // 1-1
+		StageData( // 1-2
 		6,
 		5,
 		7,
 		{
 		U".S...",
-		U"....G",
+		U".L..G",
 		U"....#",
 		U"S...G",
-		U".....",
+		U"..R..",
 		U"....."
 		})
 	}
