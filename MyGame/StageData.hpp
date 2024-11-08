@@ -287,6 +287,22 @@ const Array<Array<StageData> > StageInfo = {
 			U"RLLRL",
 			U"LLRLL",
 			U"RLSLL"
-			})
+			}),
+		StageData( // 2-2
+		10,
+		10,
+		7,
+		{
+		U"RSLLRLRLLR",
+		U"RLLLGRRLRL",
+		U"LLRL#RRLLR",
+		U"SRRRGRRLLR",
+		U"LRRLLRRRLL",
+		U"RRLLRRLRRL",
+		U"RRLL#RLLRR",
+		U"SRLRGLRRLR",
+		U"RLRLLRRLLR",
+		U"RRLLRRLRLL"
+		})
 	}
 };

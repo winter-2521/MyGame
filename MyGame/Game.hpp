@@ -38,8 +38,8 @@ private:
 	const Texture player_texture{U"👤"_emoji};
 	const Texture goal_texture{ U"🚩"_emoji };
 	const Texture bomb_texture{ U"💣"_emoji };
-	const Texture l_rot_texture{ U"↪"_emoji };
-	const Texture r_rot_texture{ U"↩"_emoji };
+	const Texture l_rot_texture{ U"↩"_emoji };
+	const Texture r_rot_texture{ U"↪"_emoji };
 
 	// アニメーション速度 (1フレームごとに移動するピクセル数)
 	const double speed = 15.0;
