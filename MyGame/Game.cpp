@@ -46,6 +46,18 @@ void Game::update()
 		goal_texture.resized(cell_width).drawAt(target_pos + Vec2(cell_width / 2, cell_width / 2));
 	}
 
+	// 右回転マスを描画
+	for (auto p : board.l_rots) {
+		Vec2 target_pos = Vec2(grid_tl.x + p.x * cell_width, grid_tl.y + p.y * cell_width);
+		l_rot_texture.resized(cell_width).drawAt(target_pos + Vec2(cell_width / 2, cell_width / 2));
+	}
+
+	// 左回転マスを描画
+	for (auto p : board.r_rots) {
+		Vec2 target_pos = Vec2(grid_tl.x + p.x * cell_width, grid_tl.y + p.y * cell_width);
+		r_rot_texture.resized(cell_width).drawAt(target_pos + Vec2(cell_width / 2, cell_width / 2));
+	}
+
 	// プレイヤーの移動処理を描画する
 	for (auto i : step(board.players.size())) {
 		Vec2 target_pos = Vec2(grid_tl.x + board.players[i].pos.x * cell_width, grid_tl.y + board.players[i].pos.y * cell_width);
@@ -62,8 +74,39 @@ void Game::update()
 			is_moving = false;
 		}
 
+		// 目的地についている かつ 回転マスにいるとき，回転処理を行う
+		if (board.player_pos[i] == target_pos && board.player_angle_rest[i] != 0.0)
+		{
+			if (board.player_angle_rest[i] > 0)
+			{ // 正方向の回転
+				if (board.player_angle_rest[i] > rotate_speed) {
+					board.players[i].angle += rotate_speed;
+					board.player_angle_rest[i] -= rotate_speed;
+				}
+				else {
+					board.players[i].angle += board.player_angle_rest[i];
+					board.player_angle_rest[i] = 0.0;
+				}
+			}
+			if (board.player_angle_rest[i] < 0)
+			{ // 負方向の回転
+				if (-board.player_angle_rest[i] > rotate_speed) {
+					board.players[i].angle -= rotate_speed;
+					board.player_angle_rest[i] += rotate_speed;
+				}
+				else {
+					board.players[i].angle += board.player_angle_rest[i];
+					board.player_angle_rest[i] = 0.0;
+				}
+			}
+
+			// 回転角が大きくなりすぎたり，小さくなりすぎないように処理
+			if (board.players[i].angle > 360_deg) board.players[i].angle -= 360_deg;
+			if (board.players[i].angle < 0_deg) board.players[i].angle += 360_deg;
+		}
+
 		// プレイヤーの位置に絵文字を描画
-		player_texture.resized(cell_width).drawAt(board.player_pos[i] + Vec2(cell_width / 2, cell_width / 2));
+		player_texture.resized(cell_width).rotated(board.players[i].angle).drawAt(board.player_pos[i] + Vec2(cell_width / 2, cell_width / 2));
 	}
 
 	m_back_Transition.update(m_back_Button.mouseOver());

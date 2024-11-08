@@ -55,15 +55,24 @@ struct Board {
 	// 最初の状態に戻すボタンの実装時などに使う
 	StageData stage_info;
 
-	// プレイヤー・ゴールを表す配列
+	/////////////////////////////
+	// 各オブジェクトを表す配列 //
+	////////////////////////////
+	
+	// プレイヤーの座標
 	Array<Player> players;
+	// ゴール地点の座標
 	Array<Point> goals;
+	// 右回りマスの座標
+	Array<Point> l_rots;
+	// 左回りマスの座標
+	Array<Point> r_rots;
 
 	// アニメーション用に，プレイヤーの現在位置を示す double 型の配列も定義
 	Array<Vec2> player_pos;
 
 	// 回転アニメーション用に，プレイヤーの残り回転角度を示す double 型の配列
-	Array<double> player_angle;
+	Array<double> player_angle_rest;
 
 	// 現在のターン数
 	int32 now_turn;
@@ -79,10 +88,16 @@ struct Board {
 				if (String(1, data.grid_info[h][w]) == PLAYER) {
 					players.push_back(Player(Point(w, h), 0.0, 0));
 					player_pos.push_back(Vec2(w, h));
-					player_angle.push_back(0.0);
+					player_angle_rest.push_back(0.0);
 				}
 				else if (String(1, data.grid_info[h][w]) == GOAL) {
 					goals.push_back(Point(w, h));
+				}
+				else if (String(1, data.grid_info[h][w]) == L_ROT) {
+					l_rots.push_back(Point(w, h));
+				}
+				else if (String(1, data.grid_info[h][w]) == R_ROT) {
+					r_rots.push_back(Point(w, h));
 				}
 			}
 		}
@@ -101,7 +116,7 @@ struct Board {
 		players.clear();
 		goals.clear();
 		player_pos.clear();
-		player_angle.clear();
+		player_angle_rest.clear();
 		now_turn = 0;
 		for (auto w : step(stage_info.stage_width))
 		{
@@ -109,7 +124,7 @@ struct Board {
 			{
 				if (String(1, stage_info.grid_info[h][w]) == PLAYER) {
 					players.push_back(Player(Point(w, h), 0.0, 0));
-					player_angle.push_back(0.0);
+					player_angle_rest.push_back(0.0);
 				}
 				else if (String(1, stage_info.grid_info[h][w]) == GOAL) {
 					goals.push_back(Point(w, h));
@@ -135,6 +150,7 @@ struct Board {
 		return true;
 	}
 
+	// Point を引数に使うバージョンも定義
 	bool is_go(Point p) const {
 		int32 h = p.y;
 		int32 w = p.x;
@@ -195,7 +211,17 @@ struct Board {
 		players = calc;
 
 		// 回転マスに乗ったときは残り回転角の値を更新
+		// dir(今の向きを表す変数)の更新もここで行う
 		for (auto i : step(players.size())) {
+			auto [w, h] = players[i].pos;
+			if(String(1, stage_info.grid_info[h][w]) == L_ROT) {
+				player_angle_rest[i] += 360_deg + 90_deg;
+				players[i].dir = (players[i].dir + 1) % 4;
+			}
+			if (String(1, stage_info.grid_info[h][w]) == R_ROT) {
+				player_angle_rest[i] += -(360_deg + 90_deg);
+				players[i].dir = (players[i].dir + 3) % 4;
+			}
 		}
 	}
 
@@ -229,5 +255,38 @@ const Array<Array<StageData> > StageInfo = {
 		U"..R..",
 		U"....."
 		})
+
+		,
+
+		StageData( // 1-3
+		10,
+		10,
+		7,
+		{
+		U".S........",
+		U".L..G.....",
+		U"....#.....",
+		U"S...G.....",
+		U"..RLLRR...",
+		U"..LLRRL...",
+		U"....#.....",
+		U"S...G.....",
+		U"..RLLRR...",
+		U"..LLRRL..."
+		})
+	} ,
+	{ // Stage2
+		StageData( // 2-1
+			6,
+			5,
+			7,
+			{
+			U"..G..",
+			U".....",
+			U"#...#",
+			U"RLLRL",
+			U"LLRLL",
+			U"RLSLL"
+			})
 	}
 };
