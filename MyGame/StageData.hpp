@@ -34,6 +34,22 @@ struct StageData
 		: stage_height(h), stage_width(w), minimum_clear_turn(turn), grid_info(grid) {}
 };
 
+
+// ステージデータを入力として，クリアまでの最短ターン数を計算する
+// プレイヤーの人数を k とし，盤面の広さを HW としたとき，O((HW)^k) くらいの計算が必要
+// 定数倍はかなり重そうかも
+int32 calc_minimum_turn(StageData stage)
+{
+	// ステージの高さと幅
+	const int32 height = stage.stage_height;
+	const int32 width = stage.stage_width;
+
+	// 番兵として無限を入れるため十分大きい値をセット
+	const int32 INF = 1000000;
+
+	// 各プレイヤーがその盤面に
+}
+
 // 実際に動かす Player の構造体
 struct Player {
 	// Playerの座標
