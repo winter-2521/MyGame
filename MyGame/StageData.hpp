@@ -22,7 +22,7 @@ struct StageData
 	int32 stage_height;
 	int32 stage_width;
 
-	//クリアに必要な最短手数
+	//クリアに必要な最短手数 -> 直接計算する関数を内部に実装するので必要なくなりそう
 	int32 minimum_clear_turn;
 
 	//マスに何がおかれているか？の情報
@@ -36,7 +36,7 @@ struct StageData
 
 
 // ステージデータを入力として，クリアまでの最短ターン数を計算する
-// プレイヤーの人数を k とし，盤面の広さを HW としたとき，O((HW)^k) くらいの計算が必要
+// プレイヤーの人数を k とし，盤面の広さを HW としたとき，O((4HW)^k) くらいの計算が必要
 // 定数倍はかなり重そうかも
 int32 calc_minimum_turn(StageData stage)
 {
@@ -47,7 +47,33 @@ int32 calc_minimum_turn(StageData stage)
 	// 番兵として無限を入れるため十分大きい値をセット
 	const int32 INF = 1000000;
 
-	// 各プレイヤーがその盤面に
+	// プレイヤーの状態を管理する Array に名前を付ける
+	using players_pos = Array<std::pair<int,int> >; 
+
+	// 答えを格納する Array を定義
+	std::map<players_pos,int32> distance_state;
+
+	// BFS 探索に用いる queue
+	std::queue<players_pos> q;
+
+	// 座標 (x,y) を x*w+y で変換して int32 の数字一つで持てるようにする．
+	auto get_coord = [&width](int32 x, int32 y)->int {return x * width + y; };
+
+	// プレイヤーの初期地点
+	players_pos first_pos;
+
+	for (auto i : step(height))
+	{
+		for (auto j : step(width))
+		{
+			if (String(1, stage.grid_info[i][j]) == PLAYER)
+			{
+				first_pos.push_back(std::make_pair(get_coord(i, j), 0));
+			}
+		}
+	}
+
+
 }
 
 // 実際に動かす Player の構造体
