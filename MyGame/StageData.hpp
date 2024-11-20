@@ -9,6 +9,7 @@ const String GOAL	= Unicode::Widen("G");
 const String WALL	= Unicode::Widen("#");
 const String L_ROT  = Unicode::Widen("L");
 const String R_ROT  = Unicode::Widen("R");
+const String BOMB	= Unicode::Widen("B");
 
 // グリッドの移動方向の差分を表す列
 // L , D , R , U の順 (プレイヤーの回転操作を実装するとき用の仕様)
@@ -56,7 +57,10 @@ int32 calc_minimum_turn(StageData stage)
 	// BFS 探索に用いる queue
 	std::queue<players_pos> q;
 
-	// 座標 (x,y) を x*w+y で変換して int32 の数字一つで持てるようにする．
+	// 座標 (x,y) を x*w+y で変換して int32 の数字一つで持てるようにする．(高速化のための処理)
+	auto get_coord = [&width](int32 x, int32 y)->int {return x * width + y; };
+
+	// 座標 x*w+y を 座標 (x,y) に戻す．
 	auto get_coord = [&width](int32 x, int32 y)->int {return x * width + y; };
 
 	// プレイヤーの初期地点
@@ -73,7 +77,27 @@ int32 calc_minimum_turn(StageData stage)
 		}
 	}
 
+	q.push(first_pos);
 
+	distance_state[first_pos] = 0;
+
+	// いける状態が空でない間，BFSを行う．
+	// すべてのキャラがゴールマスにいるとき，距離をそのまま返す．
+	while (!q.empty())
+	{
+		players_pos now_position = q.front();
+		q.pop();
+
+		for (auto k : step(4))
+		{
+			players_pos next_position = now_position;
+			for (auto player_index : step(now_position.size()))
+			{
+			}
+		}
+	}
+
+	return INF;
 }
 
 // 実際に動かす Player の構造体
